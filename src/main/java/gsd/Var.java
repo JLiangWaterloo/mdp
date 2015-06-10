@@ -46,4 +46,17 @@ public final class Var {
     public static int var(int lit) {
         return lit >> 1;
     }
+
+    public static int fromDimacs(int dimacs) {
+        assert dimacs != 0;
+        return dimacs > 0
+                ? posLit(dimacs - 1)
+                : negLit(-dimacs - 1);
+    }
+
+    public static int toDimacs(int lit) {
+        return isPos(lit)
+                ? var(lit) + 1
+                : -var(lit) - 1;
+    }
 }

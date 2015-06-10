@@ -1,9 +1,8 @@
 package gsd;
 
+import static gsd.Var.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
-
-import static gsd.Var.*;
 
 /**
  *
@@ -26,10 +25,24 @@ public class VarTest {
         assertEquals(0, var(negLit(0)));
         assertEquals(1, var(negLit(1)));
     }
-    
+
     @Test
     public void testNeg() {
         assertEquals(posLit(0), neg(negLit(0)));
         assertEquals(negLit(0), neg(posLit(0)));
+    }
+
+    @Test
+    public void testFromDimacs() {
+        assertEquals(0, var(fromDimacs(1)));
+        assertTrue(isPos(fromDimacs(1)));
+        assertEquals(0, var(fromDimacs(-1)));
+        assertFalse(isPos(fromDimacs(-1)));
+    }
+
+    @Test
+    public void testToDimacs() {
+        assertEquals(1, toDimacs(posLit(0)));
+        assertEquals(-1, toDimacs(negLit(0)));
     }
 }
