@@ -16,22 +16,23 @@ public final class DimacsParser {
     private DimacsParser() {
     }
 
-    public static int[][] parse(String in) throws IOException {
+    public static Cnf parse(String in) throws IOException {
         try (StringReader sin = new StringReader(in)) {
             return parse(sin);
         }
     }
 
-    public static int[][] parse(File in) throws IOException {
+    public static Cnf parse(File in) throws IOException {
         try (FileReader fin = new FileReader(in)) {
             return parse(fin);
         }
     }
 
-    public static int[][] parse(Reader in) throws IOException {
+    public static Cnf parse(Reader in) throws IOException {
         BufferedReader bin = new BufferedReader(in);
         String line;
 
+        int nVars = -1;
         int[][] clauses = null;
         int size = 0;
 
@@ -42,7 +43,14 @@ public final class DimacsParser {
                     if (clauses != null) {
                         throw new IOException("Found the line \"p cnf ...\" twice.");
                     }
+                    nVars = Integer.parseInt(tokens[2]);
+                    if (nVars < 0) {
+                        throw new IOException("Expected a nonnegative number of variables.");
+                    }
                     int nClauses = Integer.parseInt(tokens[3]);
+                    if (nClauses < 0) {
+                        throw new IOException("Expected a nonnegative number of clauses.");
+                    }
                     clauses = new int[nClauses][];
                 } else {
                     if (!tokens[tokens.length - 1].equals("0")) {
@@ -57,10 +65,13 @@ public final class DimacsParser {
             }
         }
 
+        if (clauses == null) {
+            throw new IOException("Expected the line \"p cnf ...\".");
+        }
         if (size != clauses.length) {
             throw new IOException("Expected " + clauses.length + " clauses, found " + size + ".");
         }
 
-        return clauses;
+        return new Cnf(nVars, clauses);
     }
 }
