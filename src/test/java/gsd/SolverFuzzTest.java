@@ -30,7 +30,7 @@ public class SolverFuzzTest {
             }
             solvers[0].setBranchingHeuristic(new ExponentialRecencyWeightedAverage(solvers[0], 0, 0.05, false));
             solvers[1].setBranchingHeuristic(new ExponentialRecencyWeightedAverage(solvers[1], 0, 0.05, true));
-            solvers[2].setBranchingHeuristic(new RandomVariable(solvers[2]));
+            solvers[2].setBranchingHeuristic(new RandomOrder(solvers[2]));
             solvers[3].setBranchingHeuristic(new StaticOrder(solvers[3]));
             solvers[4].setBranchingHeuristic(new VSIDS(solvers[4]));
             for (int j = 0; j < solvers.length; j++) {

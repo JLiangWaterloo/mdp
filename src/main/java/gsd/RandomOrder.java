@@ -6,12 +6,12 @@ import java.util.Random;
  *
  * @author jimmy
  */
-public class RandomVariable implements BranchingHeuristic {
+public class RandomOrder implements BranchingHeuristic {
 
     private final Solver solver;
     private final Random rand = new Random();
 
-    public RandomVariable(Solver solver) {
+    public RandomOrder(Solver solver) {
         this.solver = solver;
     }
 
